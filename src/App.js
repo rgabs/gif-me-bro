@@ -1,28 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const useGifs = (searchText) => {
+  const [gifs, setGifs] = useState([]);
+  const API_KEY = 'kVHHyZckoyzVBz92p2sdzGIOE50ewYm4';
+
+  useEffect(() => {
+    if (!searchText) return;
+    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchText}`)
+      .then(res => res.json())
+      .then(res => setGifs(res.data));
+  }, [searchText]);
+
+  return gifs;
 }
 
-export default App;
+
+const Grid = ({ searchText}) => {
+
+  const gifs = useGifs(searchText);
+  
+  const renderGif = ({ id, url, images, title}) => (
+    <div key={id}>
+      <img src={images.downsized_medium.url} alt={title}></img>
+      <br></br>
+    </div>
+  );
+
+
+  return <div>
+    {gifs.length > 0 ? gifs.map(renderGif) : 'NO GIFS'}
+  </div>;
+}
+
+
+
+const App = () => {
+  const [searchText, setSearchText] = useState('');
+
+  return (
+    <div className="App">
+      <input value={searchText} onChange={(e) => setSearchText(e.target.value)}></input>
+      <Grid searchText={searchText}/>
+    </div>
+  );
+}
+
+export default (App);
