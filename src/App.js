@@ -1,41 +1,34 @@
 import React, { useState, useEffect } from 'react';
-
-const useGifs = (searchText) => {
-  const [gifs, setGifs] = useState([]);
-  const API_KEY = 'kVHHyZckoyzVBz92p2sdzGIOE50ewYm4';
-
-  useEffect(() => {
-    if (!searchText) return;
-    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchText}`)
-      .then(res => res.json())
-      .then(res => setGifs(res.data));
-  }, [searchText]);
-
-  return gifs;
-}
-
+import useGifs from './utils/hooks';
+import { storeCacheToLocalStorage, setCacheFromLocalStorage} from './utils/cache';
 
 const Grid = ({ searchText}) => {
-
-  const gifs = useGifs(searchText);
+  const {gifs, loadState} = useGifs(searchText);
   
-  const renderGif = ({ id, url, images, title}) => (
+  const renderGif = ({ id, url, title}) => (
     <div key={id}>
-      <img src={images.downsized_medium.url} alt={title}></img>
+      <img src={url} alt={title}></img>
       <br></br>
     </div>
   );
 
+  if (loadState) {
+    return <p>Loading...</p>;
+  }
 
   return <div>
     {gifs.length > 0 ? gifs.map(renderGif) : 'NO GIFS'}
   </div>;
 }
 
-
-
 const App = () => {
   const [searchText, setSearchText] = useState('');
+  
+  useEffect(() => {
+    setCacheFromLocalStorage();
+    window.addEventListener("beforeunload", storeCacheToLocalStorage);
+    return () => window.removeEventListener("beforeunload", storeCacheToLocalStorage);
+  },[]);
 
   return (
     <div className="App">
