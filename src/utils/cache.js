@@ -26,7 +26,6 @@ export const updateCache = (input, newGifs) => {
         ...localCache.searchStringsMap,
         [input.toLowerCase()]: newGifs.map((repo) => repo.id)
     };
-    return newGifs;
 }
 
 export const getCachedGifsForInput = (input) => {

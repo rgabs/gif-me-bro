@@ -16,12 +16,13 @@ const Grid = ({ searchText}) => {
     return <p>Hello! I am GIF-me-bro. I will gif you for all kind of inputs. <br/>Happy Gifing ;)</p>
   }
 
-  else if (loadState) {
-    return <p>Loading...</p>;
+  else if (gifs.length === 0) {
+    return <p>NO GIFS</p>;
   }
 
   return <div>
-    {gifs.length > 0 ? gifs.map(renderGif) : 'NO GIFS'}
+    {gifs.map(renderGif)}
+    {loadState && <p>Loading...</p>}
   </div>;
 }
 
