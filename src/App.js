@@ -12,7 +12,11 @@ const Grid = ({ searchText}) => {
     </div>
   );
 
-  if (loadState) {
+  if (!searchText) {
+    return <p>Hello! I am GIF-me-bro. I will gif you for all kind of inputs. <br/>Happy Gifing ;)</p>
+  }
+
+  else if (loadState) {
     return <p>Loading...</p>;
   }
 

@@ -22,7 +22,7 @@ const useGifs = (input) => {
     const API_KEY = 'kVHHyZckoyzVBz92p2sdzGIOE50ewYm4';
 
     useEffect(() => {
-        if (!searchText) return;
+        if (!searchText) return setGifs([]);
         if (isCachePresent(searchText)) {
             return setGifs(getCachedGifsForInput(searchText));
         }
