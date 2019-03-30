@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import {isCachePresent, getCachedGifsForInput, processGifs, updateCache} from './cache';
 
+const fetchGifs = (searchText, offset, limit = 5) => {
+    const API_KEY = 'kVHHyZckoyzVBz92p2sdzGIOE50ewYm4';
+    return fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchText}&limit=${limit}&offset=${offset}`)
+        .then(res => res.json())
+        .then(processGifs)
+}
+
 const useDebounce = (input, delay) => {
     const [debouncedVal, setDebouncedVal] = useState(input);
     useEffect(() => {
@@ -35,8 +42,7 @@ const useGifs = (input) => {
     const [loadState, setLoadState] = useState(false);
     const isBottom = useScroll();
 
-    const searchText = useDebounce(input, 500)
-    const API_KEY = 'kVHHyZckoyzVBz92p2sdzGIOE50ewYm4';
+    const searchText = useDebounce(input, 500);
 
     useEffect(() => {
         if (!searchText) return setGifs([]);
@@ -44,10 +50,8 @@ const useGifs = (input) => {
             return setGifs(getCachedGifsForInput(searchText));
         }
         setLoadState(true);
-        fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchText}&limit=5&offset=${gifs.length}`)
-            .then(res => res.json())
-            .then(processGifs)
-            .then(newGifs => {
+        fetchGifs(searchText, gifs.length)
+            .then(({ newGifs, total }) => {
                 const updatedGifs = [...gifs, ...newGifs];
                 setGifs(updatedGifs);
                 return updatedGifs;

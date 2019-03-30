@@ -51,9 +51,12 @@ export const setCacheFromLocalStorage = () => {
 }
 
 export const processGifs = (gifs) => {
-    return gifs.data.map(({ id, images, title}) => ({
+    const newGifs = gifs.data.map(({ id, images, title}) => ({
         id,
         title,
-        url: images.downsized_medium.url
+        url: images.downsized_medium.url,
+        aspectRatio: images.downsized_medium.width / images.downsized_medium.height
     }));
+
+    return {newGifs, total: gifs.pagination.total_count}
 }
