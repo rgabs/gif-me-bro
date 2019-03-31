@@ -21,14 +21,14 @@ const useDebounce = (input, delay) => {
     return debouncedVal;
 }
 
-const useScroll = () => {
+const useScroll = (offset = 500) => {
     const [isBottom, setIsBottom] = useState(false);
     useEffect(() => {
         window.onscroll = function () {
             var d = document.documentElement;
-            var offset = d.scrollTop + window.innerHeight;
-            var height = d.offsetHeight;
-            setIsBottom(offset === height);
+            var scrolled = d.scrollTop + window.innerHeight;
+            var height = d.offsetHeight;    
+            setIsBottom(height - scrolled < offset);
         };
 
         return () => window.onscroll = null;
@@ -37,31 +37,47 @@ const useScroll = () => {
     return isBottom;
 };
 
+sessionStorage.clear();
+
 const useGifs = (input) => {
     const [gifs, setGifs] = useState([]);
     const [loadState, setLoadState] = useState(false);
     const [totalResults, setTotalResults] = useState();
 
-    const isBottom = useScroll();
+    const isBottom = useScroll(500);
     const searchText = useDebounce(input, 500);
 
     useEffect(() => {
-        if (!searchText) return setGifs([]);
-        if (isCachePresent(searchText) && !isBottom) {
-            return setGifs(getCachedGifsForInput(searchText));
-        }
+        if(!isBottom) return;
         if (totalResults === gifs.length) return;
+        console.log('calling api');
         setLoadState(true);
         fetchGifs(searchText, gifs.length)
             .then(({ newGifs, total }) => {
                 const updatedGifs = [...gifs, ...newGifs];
                 setGifs(updatedGifs);
-                setTotalResults(total);
                 return updatedGifs;
             })
             .then(gifs => updateCache(searchText, gifs))
             .finally(() => setLoadState(false));
-    }, [searchText, isBottom, totalResults]);
+    }, [isBottom]);
+
+    useEffect(() => {
+        if (!searchText) return setGifs([]);
+        if (isCachePresent(searchText)) {
+            return setGifs(getCachedGifsForInput(searchText));
+        }
+        setLoadState(true);
+        setGifs([]);
+        fetchGifs(searchText, gifs.length)
+            .then(({ newGifs, total }) => {
+                setGifs(newGifs);
+                setTotalResults(total);
+                return newGifs;
+            })
+            .then(gifs => updateCache(searchText, gifs))
+            .finally(() => setLoadState(false));
+    }, [searchText]);
 
     return { gifs, loadState };
 }

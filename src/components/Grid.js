@@ -10,7 +10,7 @@ const Grid = ({ searchText }) => {
         return <p>Hello! I am GIF-me-bro. I will gif you for all kind of inputs. <br />Happy Gifing ;)</p>
     }
 
-    else if (gifs.length === 0) {
+    if (gifs.length === 0 && !loadState) {
         return <p>NO GIFS</p>;
     }
 
@@ -23,7 +23,7 @@ const Grid = ({ searchText }) => {
                 <Gif key={id} {...imageProps} width={680 / itemsPerRow} />
             ))}
         </div>
-        {loadState && <p>Loading...</p>}
+        {loadState ? <p>Loading...</p> : null}
     </div>;
 }
 
