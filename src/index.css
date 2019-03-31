@@ -13,12 +13,24 @@ code {
     monospace;
 }
 
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.search-input {
+  border: 2px solid black;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
 
 /* GIF: styling the gif loader */
 
 .image-container {
   position: relative;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   transition: width 0.3s;
@@ -35,16 +47,41 @@ code {
 }
 
 .image-container:hover .video-controls {
-  opacity: 1;
+  opacity: 0.8;
 }
 
 .image-container.full-screen {
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 99;
 }
 
 .image-container.full-screen img {
   max-width: 50vw;
   max-height: 80vh;
+}
+
+.control-icon {
+  background: url(./icons/expand.svg);
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 10px;
+}
+
+.control-icon.expand {
+  background-image: url(./icons/expand.svg);
+}
+.control-icon.play {
+  background-image: url(./icons/play.svg);
+}
+.control-icon.pause {
+  background-image: url(./icons/pause.svg);
+}
+.control-icon.collapse {
+  background-image: url(./icons/collapse.svg);
 }

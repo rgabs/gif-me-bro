@@ -15,13 +15,14 @@ const Gif = ({ gifUrl, stillUrl, title, aspectRatio, width }) => {
 
     const toggleFullScreen = () => {
         setFullScreenStatus(!fullScreenStatus);
+        setCurrenturl(gifUrl);
     }
 
     return (
         <div style={style} className={`image-container ${fullScreenStatus ? "full-screen" : ""}`}>
             <div className="video-controls">
-                <span onClick={onImagePress} >{currentUrl === gifUrl ? "Pause" : "Play"}</span>
-                <span onClick={toggleFullScreen} >Full screen</span>
+                <span onClick={onImagePress} className={`control-icon ${currentUrl === gifUrl ? "pause" : "play"}`}></span>
+                <span onClick={toggleFullScreen} className={`control-icon ${fullScreenStatus ? "collapse" : "expand"}`} ></span>
             </div>
             <img src={currentUrl} alt={title} width="100%" />
             <br />

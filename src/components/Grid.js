@@ -5,10 +5,7 @@ import Gif from './Gif';
 const Grid = ({ searchText }) => {
     const [itemsPerRow, setItemsPerRow] = useState(1);
     const { gifs, loadState } = useGifs(searchText);
-
-    if (!searchText) {
-        return <p>Hello! I am GIF-me-bro. I will gif you for all kind of inputs. <br />Happy Gifing ;)</p>
-    }
+    const gridOptions = [1, 2, 3, 4];
 
     if (gifs.length === 0 && !loadState) {
         return <p>NO GIFS</p>;
@@ -16,7 +13,7 @@ const Grid = ({ searchText }) => {
 
     return <div>
         <select onChange={e => setItemsPerRow(e.target.value)}>
-            {[1, 2, 3, 4].map(noOfItems => <option key={noOfItems} value={noOfItems}>{noOfItems}</option>)}
+            {gridOptions.map(noOfItems => <option key={noOfItems} value={noOfItems}>{noOfItems}</option>)}
         </select>
         <div>
             {gifs.map(({ id, ...imageProps }) => (

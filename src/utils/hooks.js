@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {isCachePresent, getCachedGifsForInput, processGifs, updateCache} from './cache';
 
-const fetchGifs = (searchText, offset, limit = 5) => {
+const fetchGifs = (searchText, offset, limit = 15) => {
     const API_KEY = 'kVHHyZckoyzVBz92p2sdzGIOE50ewYm4';
     return fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchText}&limit=${limit}&offset=${offset}`)
         .then(res => res.json())
@@ -23,6 +23,7 @@ const useDebounce = (input, delay) => {
 
 const useScroll = (offset = 500) => {
     const [isBottom, setIsBottom] = useState(false);
+    
     useEffect(() => {
         window.onscroll = function () {
             var d = document.documentElement;
@@ -32,7 +33,7 @@ const useScroll = (offset = 500) => {
         };
 
         return () => window.onscroll = null;
-    }, [isBottom]);
+    }, []);
 
     return isBottom;
 };
@@ -50,10 +51,9 @@ const useGifs = (input) => {
     useEffect(() => {
         if(!isBottom) return;
         if (totalResults === gifs.length) return;
-        console.log('calling api');
         setLoadState(true);
         fetchGifs(searchText, gifs.length)
-            .then(({ newGifs, total }) => {
+            .then(({ newGifs }) => {
                 const updatedGifs = [...gifs, ...newGifs];
                 setGifs(updatedGifs);
                 return updatedGifs;
