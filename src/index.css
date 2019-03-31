@@ -12,3 +12,39 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+/* GIF: styling the gif loader */
+
+.image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: width 0.3s;
+  background-color: black;
+  margin-bottom: 20px;
+}
+
+.image-container .video-controls {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.image-container:hover .video-controls {
+  opacity: 1;
+}
+
+.image-container.full-screen {
+  position: fixed;
+  top: 0;
+  z-index: 99;
+}
+
+.image-container.full-screen img {
+  max-width: 50vw;
+  max-height: 80vh;
+}

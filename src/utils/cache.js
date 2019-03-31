@@ -54,7 +54,8 @@ export const processGifs = (gifs) => {
     const newGifs = gifs.data.map(({ id, images, title}) => ({
         id,
         title,
-        url: images.downsized_medium.url,
+        gifUrl: images.downsized_medium.url,
+        stillUrl: images['480w_still'].url,
         aspectRatio: images.downsized_medium.width / images.downsized_medium.height
     }));
 

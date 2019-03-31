@@ -43,9 +43,6 @@ const useGifs = (input) => {
     const [totalResults, setTotalResults] = useState();
 
     const isBottom = useScroll();
-
-    console.log('isBottom', isBottom);
-
     const searchText = useDebounce(input, 500);
 
     useEffect(() => {
