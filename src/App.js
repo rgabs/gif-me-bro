@@ -2,15 +2,24 @@ import React, { useState, useEffect } from 'react';
 import useGifs from './utils/hooks';
 import { storeCacheToLocalStorage, setCacheFromLocalStorage} from './utils/cache';
 
-const Grid = ({ searchText}) => {
-  const {gifs, loadState} = useGifs(searchText);
-  
-  const renderGif = ({ id, url, title}) => (
-    <div key={id}>
-      <img src={url} alt={title}></img>
-      <br></br>
+const Gif = ({ url, title, aspectRatio, width }) => {
+  const style = {
+    width, 
+    height: width / aspectRatio,
+    backgroundColor: 'black',
+    marginBottom: '20px'
+  }
+  return (
+    <div style={style} className="image-container">
+      <img src={url} alt={title} width="100%" />
+      <br/>
     </div>
-  );
+  )
+}
+
+const Grid = ({ searchText}) => {
+  const [itemsPerRow, setItemsPerRow] = useState(1);
+  const {gifs, loadState} = useGifs(searchText);
 
   if (!searchText) {
     return <p>Hello! I am GIF-me-bro. I will gif you for all kind of inputs. <br/>Happy Gifing ;)</p>
@@ -21,7 +30,14 @@ const Grid = ({ searchText}) => {
   }
 
   return <div>
-    {gifs.map(renderGif)}
+    <select onChange={e => setItemsPerRow(e.target.value)}>
+      {[1, 2, 3, 4].map(noOfItems => <option key={noOfItems} value={noOfItems}>{noOfItems}</option>)}
+    </select>
+    <div>
+      {gifs.map(({ id, ...imageProps }) => (
+        <Gif key={id} {...imageProps} width={680 / itemsPerRow} />
+      ))}
+    </div>
     {loadState && <p>Loading...</p>}
   </div>;
 }

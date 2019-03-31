@@ -28,19 +28,23 @@ const useScroll = () => {
             var d = document.documentElement;
             var offset = d.scrollTop + window.innerHeight;
             var height = d.offsetHeight;
-            setIsBottom(offset === height)
+            setIsBottom(offset === height);
         };
 
         return () => window.onscroll = null;
     }, [isBottom]);
 
     return isBottom;
-}
-sessionStorage.clear();
+};
+
 const useGifs = (input) => {
     const [gifs, setGifs] = useState([]);
     const [loadState, setLoadState] = useState(false);
+    const [totalResults, setTotalResults] = useState();
+
     const isBottom = useScroll();
+
+    console.log('isBottom', isBottom);
 
     const searchText = useDebounce(input, 500);
 
@@ -49,16 +53,18 @@ const useGifs = (input) => {
         if (isCachePresent(searchText) && !isBottom) {
             return setGifs(getCachedGifsForInput(searchText));
         }
+        if (totalResults === gifs.length) return;
         setLoadState(true);
         fetchGifs(searchText, gifs.length)
             .then(({ newGifs, total }) => {
                 const updatedGifs = [...gifs, ...newGifs];
                 setGifs(updatedGifs);
+                setTotalResults(total);
                 return updatedGifs;
             })
             .then(gifs => updateCache(searchText, gifs))
             .finally(() => setLoadState(false));
-    }, [searchText, isBottom]);
+    }, [searchText, isBottom, totalResults]);
 
     return { gifs, loadState };
 }
