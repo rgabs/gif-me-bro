@@ -50,18 +50,6 @@ code {
   opacity: 0.8;
 }
 
-.image-container.full-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
-}
-
-.image-container.full-screen img {
-  max-width: 50vw;
-  max-height: 80vh;
-}
-
 .control-icon {
   background: url(./icons/expand.svg);
   width: 40px;

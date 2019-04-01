@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-medium-image-zoom": "^3.0.15",
     "react-scripts": "2.1.8"
   },
   "scripts": {
