@@ -14,7 +14,7 @@ const App = () => {
   return (
     <div className="App">
       <h3 align="center">Hello! I am GIF-me-bro. I will gif you for all kind of inputs. <br />Happy Gifing ;)</h3>
-       <input className="search-input" value={searchText} onChange={(e) => setSearchText(e.target.value)}></input>
+      <input className="search-input" value={searchText} onChange={(e) => setSearchText(e.target.value)}></input>
       <Grid searchText={searchText}/>
     </div>
   );

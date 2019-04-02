@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useGifs from '../utils/hooks';
 import Gif from './Gif';
+import createGrid from '../utils/grid';
 
 const Grid = ({ searchText }) => {
-    const [itemsPerRow, setItemsPerRow] = useState(1);
+    const [itemsPerRow, setItemsPerRow] = useState(2);
     const [containerWidth, setContainerWidth] = useState(0);
     const { gifs, loadState } = useGifs(searchText);
     const gifContainerRef = useRef(null);
 
-    const gridOptions = [1, 2, 3, 4];
+    const gridOptions = [2, 3, 4, 5];
+    const cellSpacing = 10;
+    const processedGifs = createGrid(gifs, itemsPerRow, cellSpacing);
 
     useEffect(() => {
         if (!gifContainerRef.current) return;
@@ -24,16 +27,24 @@ const Grid = ({ searchText }) => {
         return <p>NO GIFS</p>;
     }
 
-    return <div style={{width: '100%'}}>
-        <select onChange={e => setItemsPerRow(e.target.value)}>
+    return <div className="grid-wrapper">
+        <select onChange={e => setItemsPerRow(e.target.value)} className="column-size-select">
             {gridOptions.map(noOfItems => <option key={noOfItems} value={noOfItems}>{noOfItems}</option>)}
         </select>
-        <div ref={gifContainerRef}>
-            {gifs.map(({ id, ...imageProps }) => (
-                <Gif key={id} {...imageProps} width={containerWidth / itemsPerRow} />
-            ))}
+        <div ref={gifContainerRef} className="grid">
+            {
+                processedGifs.map((columnData, i) => {
+                    return (
+                        <div key={i} style={{ padding: cellSpacing + 'px'}}>
+                            {columnData.map(({ id, ...imageProps },) => (
+                                <Gif key={id} {...imageProps} width={(containerWidth / itemsPerRow) - 2 * cellSpacing} />
+                            ))}
+                        </div>
+                    )
+                })
+            }
         </div>
-        {loadState ? <p>Loading...</p> : null}
+        {loadState ? <p align="center">Loading...</p> : null}
     </div>;
 }
 

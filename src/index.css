@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f9f9f9;
 }
 
 code {
@@ -17,11 +18,13 @@ code {
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding: 10px;
 }
 
-.search-input {
+.search-input, .column-size-select {
   border: 2px solid black;
   padding: 5px 10px;
+  border-radius: 2px;
   font-size: 20px;
 }
 
@@ -34,7 +37,9 @@ code {
   justify-content: center;
   align-items: center;
   transition: width 0.3s;
-  background-color: black;
+  background-color: grey;
+  background: grey url(./icons/picture.svg) no-repeat center;
+  background-size: 20%;
   margin-bottom: 20px;
 }
 
@@ -51,7 +56,6 @@ code {
 }
 
 .control-icon {
-  background: url(./icons/expand.svg);
   width: 40px;
   height: 40px;
   display: inline-block;
@@ -61,15 +65,24 @@ code {
   margin: 10px;
 }
 
-.control-icon.expand {
-  background-image: url(./icons/expand.svg);
-}
 .control-icon.play {
   background-image: url(./icons/play.svg);
 }
 .control-icon.pause {
   background-image: url(./icons/pause.svg);
 }
-.control-icon.collapse {
-  background-image: url(./icons/collapse.svg);
+
+/* Grid */
+
+.grid-wrapper {
+  width: 100%;
+}
+
+.grid-wrapper .grid {
+  display: flex;
+}
+
+.column-size-select {
+  display: block;
+  margin: 10px auto;
 }

@@ -56,7 +56,8 @@ export const processGifs = (gifs) => {
         title,
         gifUrl: images.downsized_medium.url,
         stillUrl: images['480w_still'].url,
-        aspectRatio: images.downsized_medium.width / images.downsized_medium.height
+        aspectRatio: images.downsized_medium.width / images.downsized_medium.height,
+        height: Number(images.downsized_medium.height)
     }));
 
     return {newGifs, total: gifs.pagination.total_count}
