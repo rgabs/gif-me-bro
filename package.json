@@ -2,7 +2,9 @@
   "name": "gif-me-bro",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
+    "gh-pages": "^2.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-medium-image-zoom": "^3.0.15",
@@ -12,6 +14,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
