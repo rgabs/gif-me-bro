@@ -28,9 +28,13 @@ const Grid = ({ searchText }) => {
     }
 
     return <div className="grid-wrapper">
-        <select onChange={e => setItemsPerRow(e.target.value)} className="column-size-select">
-            {gridOptions.map(noOfItems => <option key={noOfItems} value={noOfItems}>{noOfItems}</option>)}
-        </select>
+        <div className="column-size-container">
+            <span>Items per row:</span>
+            <select onChange={e => setItemsPerRow(e.target.value)} value={itemsPerRow} className="column-size-select">
+                {gridOptions.map(noOfItems => <option key={noOfItems} value={noOfItems}>{noOfItems}</option>)}
+            </select>
+        </div>
+        
         <div ref={gifContainerRef} className="grid">
             {
                 processedGifs.map((columnData, i) => {

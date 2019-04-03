@@ -38,8 +38,6 @@ const useScroll = (offset = 500) => {
     return isBottom;
 };
 
-sessionStorage.clear();
-
 const useGifs = (input) => {
     const [gifs, setGifs] = useState([]);
     const [loadState, setLoadState] = useState(false);

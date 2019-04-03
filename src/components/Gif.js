@@ -16,7 +16,8 @@ const Gif = ({ gifUrl, stillUrl, title, aspectRatio, width }) => {
             <div className="video-controls">
                 <span onClick={onImagePress} className={`control-icon ${currentUrl === gifUrl ? "pause" : "play"}`}></span>
             </div>
-            <ImageZoom image={{ src: currentUrl }} alt={title} defaultStyles={{ image: { width: '100%' } }}/>
+            <ImageZoom image={{ src: currentUrl }} zoomImage={{ src: gifUrl }}
+                shouldReplaceImage={false} alt={title} defaultStyles={{ image: { width: '100%' } }}/>
             <br />
         </div>
     )
