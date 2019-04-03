@@ -67,7 +67,7 @@ code {
 }
 
 @media only screen and (max-width: 600px) {
-  .control-icon {
+  .video-controls {
     display: none;
   }
 }
